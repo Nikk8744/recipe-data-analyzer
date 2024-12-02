@@ -19,6 +19,10 @@ async function fetchRecipes(){
         console.log(error)
     }
 }
+
+async function analyzeRecipesData(){
+    
+}
 // method - 1
  async function displayRecipes(){
     const recipes = await fetchRecipes();
