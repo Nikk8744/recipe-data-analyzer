@@ -21,8 +21,9 @@ async function fetchRecipes(){
 }
 
 async function analyzeRecipesData(){
-    
+    // have to use collect.js to do data analysis
 }
+
 // method - 1
  async function displayRecipes(){
     const recipes = await fetchRecipes();
