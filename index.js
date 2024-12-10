@@ -1,9 +1,8 @@
+require('dotenv').config();
 const axios = require("axios");
 const collect = require("collect.js");
-require('dotenv').config();
 
 const API_URL = "https://api.spoonacular.com/recipes/complexSearch";
-
 
 async function fetchRecipes(){
     try {
@@ -52,13 +51,13 @@ async function analyzeRecipesData(recipes){
 
     console.log("Fetching Recepies")
     const recipes = await fetchRecipes();
-    // if (recipes.length === 0) {
-    //     console.log("No recipes found")
-    // }
+    if (recipes.length === 0) {
+        console.log("No recipes found")
+    }
     console.log("The second recipe is:", recipes[0].title)
     // console.log(recipes)
 
-    const data = analyzeRecipesData(recipes)
+    const data = await analyzeRecipesData(recipes)
     
 }
 
