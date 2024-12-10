@@ -14,25 +14,56 @@ async function fetchRecipes(){
                 "addRecipeInformation": true
             }
         });
+        // console.log(response)
         return response.data.results;
     } catch (error) {
         console.log(error)
     }
 }
 
-async function analyzeRecipesData(){
+async function analyzeRecipesData(recipes){
     // have to use collect.js to do data analysis
+    const RecipesCollection = collect(recipes); 
+    // console.log("The collection is: ")
+    // console.log(RecipesCollection);
+
+    // average time
+    const time = RecipesCollection.pluck('readyInMinutes')
+    const averageCookingTime = time.avg();
+    console.log("\nThe avg time is:",averageCookingTime)
+    
+    // highest rating
+    const highestRated = RecipesCollection.sortBy('spoonacularScore').last();
+    console.log("\nThe highest rated Recipe is:", highestRated.title)
+    
+    // group by cuisine
+    const groupedByCuisines = RecipesCollection.groupBy('cuisines') // this will return a collection of cusines and ispe foreach nhi chalta
+    // console.log(groupedByCuisines)
+    groupedByCuisines.each((recipes, cuisine) => {
+        console.log(`\n ${cuisine  || "Unknown Cuisine"} :`)
+        recipes.each(recipe => {
+            console.log(`${recipe.title}`)
+        })
+    });
 }
 
 // method - 1
- async function displayRecipes(){
+ async function result(){
+
+    console.log("Fetching Recepies")
     const recipes = await fetchRecipes();
-    console.log(recipes[1].title)
-    console.log(recipes)
- }
+    // if (recipes.length === 0) {
+    //     console.log("No recipes found")
+    // }
+    console.log("The second recipe is:", recipes[0].title)
+    // console.log(recipes)
+
+    const data = analyzeRecipesData(recipes)
+    
+}
 
 //  another method - 2
- fetchRecipes().then(recipes => console.log(recipes))
-.catch(error => console.error(error));
+//  fetchRecipes().then(recipes => console.log(recipes))
+// .catch(error => console.error(error));
 
- displayRecipes();
+ result();
